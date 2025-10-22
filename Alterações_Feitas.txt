@@ -1,0 +1,44 @@
+src/misc/axios.js
+
+Corrigir a URL base usada para construir os links de download.
+
+------------------------------------------------------------
+src/components/aluno/AlunoPreferencias.vue
+
+Corrigido o uso de this.$t para t() (com useI18n).
+
+Corrigir erro de tradução em <script setup>
+-------------------------------------------------------------
+src/components/aluno/AlunoDocumentos.vue
+
+Modificado para buscar o status dos documentos na API e exibir dinamicamente, adicionando tipoId aos itens.
+
+Mostrar o estado real dos envios do aluno
+------------------------------------------------------------
+
+src/components/UI/AccordionCore.vue
+
+Adicionado :tipoId="item.tipoId" ao AccordionItem no v-for.
+
+Passar o ID do modelo para o componente filho.
+--------------------------------------------------------
+
+src/components/UI/AccordionItem.vue
+
+Adicionada a prop tipoId. Implementada a função baixarModelo que usa Axios. Alterado o link no template para chamar baixarModelo.
+
+Adicionar a funcionalidade de download do modelo via Axios.
+--------------------------------------------------------
+
+src/controllers/aluno/alunoDocumento.js
+
+Modificada a consulta findOne para filtrar por idPostador: req.uid em vez de estágio ativo.
+
+Função download: Modificada a consulta findOne para filtrar por idPostador: req.uid. Substituído res.sendFile() por res.download() com tratamento de erro.
+--------------------------------------------------------
+
+src/App.js
+
+Adicionado exposedHeaders: ['Content-Disposition'] à configuração do cors.
+
+Permitir que o JavaScript do frontend leia o nome do ficheiro do cabeçalho enviado pelo backend
