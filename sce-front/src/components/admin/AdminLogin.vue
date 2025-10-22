@@ -46,14 +46,15 @@
 
 		if (!email.value || !validateEmail(email.value)) {
 			validEmail.value = false;
-			errorMessages.value.push(this.$t("error.email-formato"));
+			// Adaptado para não usar i18n diretamente aqui, ou use 't' se o tiver configurado
+			errorMessages.value.push("Formato de e-mail inválido."); // Exemplo
 		}
 		if (
 			!password.value ||
 			password.value.length < constants.MIN_LENGTH_PASSWD
 		) {
 			validPassword.value = false;
-			errorMessages.value.push(this.$t("error.password-tamanho"));
+			errorMessages.value.push(`A senha deve ter pelo menos ${constants.MIN_LENGTH_PASSWD} caracteres.`); // Exemplo
 		}
 
 		if (errorMessages.value.length > 0) return;
@@ -65,18 +66,16 @@
 
 		try {
 			isLoading.value = true;
-			// 1. O backend define o cookie aqui
+			// 1. Backend define o cookie
 			await store.dispatch("loginAdmin", payload);
 
-			// 2. <-- CORREÇÃO: Adicionada esta linha
-			// Use o cookie para buscar os dados do usuário e popular o Vuex
-			await store.dispatch("startSession");
+			// -- A linha 'await store.dispatch("startSession");' NÃO existe nesta versão --
 
-			// 3. Agora o isAdmin.value será verdadeiro
+			// 2. Tenta redirecionar ANTES de preencher o Vuex
 			if (isAdmin.value) {
 				router.replace("/admin/coordenador/estagio");
 			} else {
-				errorMessages.value.push(this.$t("error.nao-admin"));
+				errorMessages.value.push("Utilizador não é administrador."); // Exemplo
 			}
 		} catch (error) {
 			handleError(error);
@@ -158,6 +157,7 @@
 </template>
 
 <style scoped>
+	/* Seus estilos originais */
 	html,
 	body {
 		height: 100%;
